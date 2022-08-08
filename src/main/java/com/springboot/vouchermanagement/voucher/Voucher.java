@@ -3,14 +3,14 @@ package com.springboot.vouchermanagement.voucher;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
 public class Voucher {
 
 	@Id
-	//@GeneratedValue
+	@GeneratedValue
 	private int id;
 	private String title;
 	private String description;
@@ -18,7 +18,6 @@ public class Voucher {
 	private LocalDate expiryDate;
 	private int timesUsed;
 	private int maxUsage;
-	//@GeneratedValue
 	private int userId;
 	private String role;
 
@@ -26,10 +25,9 @@ public class Voucher {
 
 	}
 
-	public Voucher(int id, String title, String description, boolean redeemed, LocalDate expiryDate, int timesUsed,
+	public Voucher(String title, String description, boolean redeemed, LocalDate expiryDate, int timesUsed,
 			int maxUsage, int userId, String role) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.redeemed = redeemed;
