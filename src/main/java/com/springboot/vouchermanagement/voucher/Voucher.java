@@ -14,7 +14,7 @@ public class Voucher {
 	private int id;
 	private String title;
 	private String description;
-	private boolean redeemed;
+	private boolean redeemed = false;
 	private LocalDate expiryDate;
 	private int timesUsed;
 	private int maxUsage;
@@ -58,12 +58,20 @@ public class Voucher {
 		return redeemed;
 	}
 
+	public void setRedeemed(boolean redeemed) {
+		this.redeemed = redeemed;
+	}
+
 	public LocalDate getExpiryDate() {
 		return expiryDate;
 	}
 
 	public int getTimesUsed() {
 		return timesUsed;
+	}
+
+	public void setTimesUsed(int timesUsed) {
+		this.timesUsed = timesUsed;
 	}
 
 	public int getMaxUsage() {
