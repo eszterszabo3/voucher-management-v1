@@ -1,5 +1,12 @@
 package com.springboot.vouchermanagement.service;
 
+/* Notes to change:
+ * - 400 apply to logic errors, 404 apply to incorrect urls
+ * - Dont filter GET's (use url query's)
+ * - No expiryDate could be NULL  
+ */
+
+
 import java.math.BigInteger;
 import java.net.URI;
 import java.security.SecureRandom;
@@ -30,8 +37,6 @@ public class VoucherService {
 		return voucherRepository.findAll();
 	}
 	
-	public static boolean userAdd = false;
-	
 	public List<Voucher> getVouchersByRole(String role) {
 		
 		List<Voucher> vouchers = voucherRepository.findByRole(role);
@@ -41,6 +46,7 @@ public class VoucherService {
 		
 		if(role.equalsIgnoreCase("Admin"))
 			return vouchers;
+		
 		Predicate<? super Voucher> predicate = voucher -> voucher.isRedeemed() == true;
 		Predicate<? super Voucher> predicate2 = voucher -> LocalDate.now().compareTo(voucher.getExpiryDate()) >= 0 && voucher.getExpiryDate().compareTo(LocalDate.of(1902, 1, 1)) != 0;
 		vouchers.removeIf(predicate);
@@ -155,7 +161,7 @@ public class VoucherService {
 	public ResponseEntity<Object> redeemVoucherById(int userId, int voucherId) {
 		
 		if(roleCheck(userId, "User").isPresent()) {
-			Voucher voucher = getVoucherById(voucherId);
+			Voucher voucher = getVoucherById(voucherId); // filters out redeemed vouchers
 			if(voucher != null && voucher.getUserId() == userId) {
 				voucher.setTimesUsed(voucher.getTimesUsed() + 1);
 				if((voucher.getTimesUsed() >= voucher.getMaxUsage() && voucher.getMaxUsage() != -1) || (LocalDate.now().compareTo(voucher.getExpiryDate()) > 0 && voucher.getExpiryDate().compareTo(LocalDate.of(1902, 1, 1)) != 0)) {

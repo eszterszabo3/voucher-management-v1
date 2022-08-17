@@ -1,6 +1,11 @@
 
 package com.springboot.vouchermanagement.controller;
 
+/* Notes to change
+ * - Separate VoucherController into UserController & AdminController
+ * - Each controller would have its own endpoints so authorisation is unnecessary 
+ */
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
